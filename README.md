@@ -2,6 +2,7 @@
 
 A NodeJS exercise.
 This is a sample Node.js application that demonstrates a CRUD API using Express.js and MySQL. It provides endpoints for managing users and tasks, and performs various operations on the data, including combining data from multiple tables and integrating with an external API.
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://www.postman.com/yaelshrem/workspace/my-workspace/collection/11271418-919f76b0-4673-42c4-8ba1-cacd4a52113a?action=share&creator=11271418D)
 
 ## Prerequisites
 
@@ -13,21 +14,16 @@ Before running the application, ensure that you have the following installed on 
 
 Follow the steps below to set up and run the project:
 
-1. Clone the repository:
+1. Clone the repository, Install the dependencies, Run the Application:
 
    ```shell
    git clone https://github.com/yaelshrem/taskmanager.git
    cd server
- 
-Install the dependencies:
+   npm install
+   npm start
 
-   ```shellnpm install
-
-Configure the MySQL Connection details: 
+Make sure to configure the MySQL Connection details:
 Update the DB_HOST, DB_USER, DB_PASSWORD, and DB_DATABASE fields in the .env file with your MySQL connection details.
-
-Run the Application:
-   ```shellnpm start
 
 The application should now be running. You can access the API endpoints using the base URL http://localhost:8080.
 
@@ -49,6 +45,7 @@ POST /tasks - Create a new task
 PUT /tasks/:id - Update an existing task
 DELETE /tasks/:id - Delete a task
 Refer to the source code for more details on the API endpoints and their implementation.
+
 
 ## Additional Notes
 The application integrates with an external API to generate an image based on the first word of the task title. The image is saved locally and the path is stored in the task record.

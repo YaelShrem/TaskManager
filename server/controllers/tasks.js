@@ -2,7 +2,7 @@ const db = require("../models");
 const Task = db.tasks;
 const Op = db.Sequelize.Op;
 
-// Create and Save a new Task
+// Create and Save a new task
 exports.create = (req, res) => {
     // Validate request
     if (!req.body.title) {
@@ -12,14 +12,14 @@ exports.create = (req, res) => {
       return;
     }
   
-    // Create a Task
+    // Create a task
     const task = {
       title: req.body.title,
       description: req.body.description,
       status: req.body.status ? req.body.status : false
     };
   
-    // Save Task in the database
+    // Save task in the database
     Task.create(task)
       .then(data => {
         res.send(data);
@@ -27,12 +27,12 @@ exports.create = (req, res) => {
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Some error occurred while creating the Task."
+            err.message || "Some error occurred while creating the task."
         });
       });
 };
 
-// Retrieve all Tasks from the database.
+// Retrieve all task from the database.
 exports.findAll = (req, res) => {
     const title = req.query.title;
     let condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
@@ -49,7 +49,7 @@ exports.findAll = (req, res) => {
       });
 };
 
-// Find a single Task with an id
+// Find a single task with an id
 exports.findOne = (req, res) => {
     const id = req.params.id;
   
@@ -59,18 +59,18 @@ exports.findOne = (req, res) => {
           res.send(data);
         } else {
           res.status(404).send({
-            message: `Cannot find Task with id=${id}.`
+            message: `Cannot find task with id=${id}.`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
-          message: "Error retrieving Task with id=" + id
+          message: "Error retrieving task with id=" + id
         });
       });
 };
 
-// Update a Task by the id in the request
+// Update a task by the id in the request
 exports.update = (req, res) => {
     const id = req.params.id;
   
@@ -84,7 +84,7 @@ exports.update = (req, res) => {
           });
         } else {
           res.send({
-            message: `Cannot update Task with id=${id}. Maybe Task was not found or req.body is empty!`
+            message: `Cannot update task with id=${id}. Maybe task was not found or req.body is empty!`
           });
         }
       })
@@ -109,13 +109,13 @@ exports.delete = (req, res) => {
           });
         } else {
           res.send({
-            message: `Cannot delete Task with id=${id}. Maybe Task was not found!`
+            message: `Cannot delete task with id=${id}. Maybe task was not found!`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
-          message: "Could not delete Task with id=" + id
+          message: "Could not delete task with id=" + id
         });
       });
 };

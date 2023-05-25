@@ -18,29 +18,10 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.tasks = require("./task.js")(sequelize, Sequelize);
+db.users = require("./user.js")(sequelize, Sequelize);
+
+// Define model associations
+db.tasks.belongsTo(db.users);
+db.users.hasMany(db.tasks);
 
 module.exports = db;
-// const { Sequelize } = require('sequelize');
-// const User = require('./user');
-// const Task = require('./task');
-// const { database } = require('../config');
-
-// const sequelize = new Sequelize(
-//   database.database,
-//   database.username,
-//   database.password,
-//   {
-//     host: database.host,
-//     dialect: 'mysql',
-//   }
-// );
-
-// // Define model associations
-// Task.belongsTo(User);
-// User.hasMany(Task);
-
-// module.exports = {
-//     sequelize,
-//     User,
-//     Task,
-// };

@@ -1,20 +1,13 @@
-const { DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
-const sequelize = require('./index');
-
+module.exports = (sequelize, Sequelize)=>{
 const User = sequelize.define('User', {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-  },
   username: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: false,
     unique: true,
   },
   password: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: false,
   },
 });
@@ -30,6 +23,6 @@ User.beforeCreate(async (user) => {
 User.prototype.isValidPassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
-
-module.exports = User;
+    return User;
+}
 

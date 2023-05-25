@@ -18,14 +18,17 @@ Follow the steps below to set up and run the project:
    ```shell
    git clone https://github.com/yaelshrem/taskmanager.git
    cd server
-   npm install
+ 
+Install the dependencies:
+
+   ```shellnpm install
 
 Configure the MySQL Connection details: 
 Update the DB_HOST, DB_USER, DB_PASSWORD, and DB_DATABASE fields in the .env file with your MySQL connection details.
 
 Run the Application:
    ```shellnpm start
-   
+
 The application should now be running. You can access the API endpoints using the base URL http://localhost:8080.
 
 ## API Documentation

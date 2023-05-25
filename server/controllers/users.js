@@ -135,3 +135,55 @@ exports.deleteAll = (req, res) => {
         });
       });
 };
+
+// Find tasks that related to a user by user id
+exports.getTasksByUserId = (req, res) => {
+    const userId = req.params.id;
+  
+    db.users.findByPk(userId, { include: ['tasks'] })
+      .then((user) => {
+        if (!user) {
+          return res.status(404).json({ error: 'User not found' });
+        }
+        return res.json(user.tasks);
+      })
+      .catch((error) => {
+        console.log(">> Error while finding user: ", error);
+        return res.status(500).json({ error: 'Failed to fetch tasks for the user' });
+      });
+  };
+
+// Get the number of tasks we have in each status by user id
+exports.getTaskStatusCountsByUserId = async (req, res) => {
+  const userId = req.params.id; // Extract the user ID from the request parameters
+  try {
+    const statusCounts = await db.tasks.count({
+      attributes: ['status'],
+      where: { userId },
+      group: ['status'],
+    });
+    res.json(statusCounts);
+  } catch (error) {
+    console.error('Error fetching task status counts for the user:', error);
+    res.status(500).json({ error: 'Failed to fetch task status counts for the user.' });
+  }
+};
+
+// Get only users that have tasks in "in progress" status
+exports.getUsersWithInProgressTasks = async (req, res) => {
+  try {
+    const users = await db.users.findAll({
+      include: [
+        {
+          model: db.tasks,
+          as: 'tasks',
+          where: { status: 1 },
+        },
+      ],
+    });
+    res.json(users);
+  } catch (error) {
+    console.error('Error fetching users with in progress tasks:', error);
+    res.status(500).json({ error: 'Failed to fetch users with in progress tasks.' });
+  }
+};

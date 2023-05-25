@@ -3,7 +3,7 @@ const Task = db.tasks;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new task
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
     // Validate request
     if (!req.body.title) {
       res.status(400).send({
@@ -11,12 +11,12 @@ exports.create = (req, res) => {
       });
       return;
     }
-  
     // Create a task
     const task = {
       title: req.body.title,
       description: req.body.description,
-      status: req.body.status ? req.body.status : false
+      status: req.body.status ? req.body.status : 0,
+      userId: req.body.userId
     };
   
     // Save task in the database
@@ -137,16 +137,23 @@ exports.deleteAll = (req, res) => {
       });
 };
 
-// Find all done tasks
-exports.findAllDone = (req, res) => {
-    Tutorial.findAll({ where: { status: true } })
-      .then(data => {
-        res.send(data);
-      })
-      .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while retrieving tasks."
-        });
-      });
+// Get the number of total tasks we have in each status
+exports.getTaskStatusCounts = async (req, res) => {
+  try {
+    const statusCounts = await db.tasks.count({
+      attributes: ['status'],
+      group: ['status'],
+    });
+
+    // Process the counts and format them as an object
+    const countsObject = {};
+    statusCounts.forEach((count) => {
+      countsObject[count.status] = count.count;
+    });
+
+    res.json(countsObject);
+  } catch (error) {
+    console.error('Error fetching task status counts:', error);
+    res.status(500).json({ error: 'Failed to fetch task status counts.' });
+  }
 };

@@ -9,9 +9,9 @@ module.exports = app => {
     // Retrieve all Tasks
     router.get("/", tasks.findAll);
   
-    // Retrieve all done Tasks
-    router.get("/done", tasks.findAllDone);
-  
+    // Get the number of total tasks we have in each status
+    router.get("/task-status-counts", tasks.getTaskStatusCounts);
+
     // Retrieve a single Task with id
     router.get("/:id", tasks.findOne);
   

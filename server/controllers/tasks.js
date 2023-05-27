@@ -1,8 +1,8 @@
 const db = require("../models");
+const downloadImage=require("../utils/imageDownloader");
 const Task = db.tasks;
 const Op = db.Sequelize.Op;
 
-// Create and Save a new task
 exports.create = async (req, res) => {
     // Validate request
     if (!req.body.title) {
@@ -11,27 +11,43 @@ exports.create = async (req, res) => {
       });
       return;
     }
+  try {   
+    // Get the first word from the title
+    const firstWord = req.body.title.split(' ')[0];
+
+    // Generate the image URL
+    const imageUrl = `https://robohash.org/${firstWord}`;
+
+    // Generate a unique filename for the image
+    const imageName = `${Date.now()}_${firstWord}.png`;
+
+    // Download and save the image
+    await downloadImage(imageUrl, imageName);
+
+
     // Create a task
     const task = {
       title: req.body.title,
       description: req.body.description,
       status: req.body.status ? req.body.status : 0,
-      userId: req.body.userId
+      userId: req.body.userId,
+      imagePath: `/images/${imageName}`  // Store the relative path to the image
     };
-  
     // Save task in the database
     Task.create(task)
-      .then(data => {
-        res.send(data);
+      .then((data) => {
+        res.status(201).json(data);
       })
-      .catch(err => {
+      .catch((err) => {
         res.status(500).send({
-          message:
-            err.message || "Some error occurred while creating the task."
+          message: err.message || "Some error occurred while creating the task.",
         });
       });
+  } catch (error) {
+    console.log('Error:', error);
+    res.status(500).json({ error: 'Failed to create task.', message: error.message });
+  }
 };
-
 // Retrieve all task from the database.
 exports.findAll = (req, res) => {
     const title = req.query.title;

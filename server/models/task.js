@@ -8,7 +8,8 @@ module.exports = (sequelize, Sequelize) => {
       },
       status: {
         type: Sequelize.INTEGER
-      }
+      },
+      imagePath: Sequelize.STRING
     });
   
     return Task;

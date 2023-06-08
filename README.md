@@ -33,14 +33,13 @@ The application should now be running. You can access the API endpoints using th
 The API provides the following endpoints:
 
 Users:
-
 GET /users - Retrieve all users
 GET /users/:id - Retrieve a specific user by ID
 POST /users - Create a new user
 PUT /users/:id - Update an existing user
 DELETE /users/:id - Delete a user
-Tasks:
 
+Tasks:
 GET /tasks - Retrieve all tasks
 GET /tasks/:id - Retrieve a specific task by ID
 POST /tasks - Create a new task

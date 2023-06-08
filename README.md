@@ -19,6 +19,7 @@ Follow the steps below to set up and run the project:
 
    ```shell
    git clone https://github.com/yaelshrem/taskmanager.git
+   cd taskmanager
    cd server
    npm install
    npm start
